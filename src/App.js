@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CompanyInputs from './CompanyInputs';
 import MetricEncyclopedia from './MetricEncyclopedia';
 import FinalBreakdown from './FinalBreakdown';
+import UserModifiedBudget from './UserModifiedBudget';
 import brainLogo from './brain-logo.png';
 import './App.css';
 
@@ -16,6 +17,8 @@ function App() {
         return <MetricEncyclopedia />;
       case 'final-breakdown':
         return <FinalBreakdown />;
+      case 'user-modified-budget':
+        return <UserModifiedBudget />;
       default:
         return <FinalBreakdown />;
     }
@@ -51,6 +54,12 @@ function App() {
               onClick={() => setActiveSection('final-breakdown')}
             >
               Final Breakdown
+            </button>
+            <button 
+              className={`nav-button ${activeSection === 'user-modified-budget' ? 'active' : ''}`}
+              onClick={() => setActiveSection('user-modified-budget')}
+            >
+              User Modified Budget
             </button>
           </nav>
         </div>
