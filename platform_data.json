@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "company": "Google",
+    "cpm_mean": 3.21,
+    "cpm_cv": 0.28,
+    "ctr_mean": 2.14,
+    "ctr_std": 0.6,
+    "cvr_mean": 4.32,
+    "cvr_std": 1.45
+  },
+  {
+    "id": 2,
+    "company": "Meta",
+    "cpm_mean": 2.45,
+    "cpm_cv": 0.34,
+    "ctr_mean": 1.23,
+    "ctr_std": 0.42,
+    "cvr_mean": 3.67,
+    "cvr_std": 1.12
+  },
+  {
+    "id": 3,
+    "company": "TikTok",
+    "cpm_mean": 1.87,
+    "cpm_cv": 0.42,
+    "ctr_mean": 3.45,
+    "ctr_std": 1.04,
+    "cvr_mean": 2.89,
+    "cvr_std": 0.95
+  },
+  {
+    "id": 4,
+    "company": "LinkedIn",
+    "cpm_mean": 5.67,
+    "cpm_cv": 0.31,
+    "ctr_mean": 0.89,
+    "ctr_std": 0.27,
+    "cvr_mean": 6.23,
+    "cvr_std": 2.01
+  }
+]

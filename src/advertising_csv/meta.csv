@@ -1,7 +1,0 @@
-metric,value
-mean_cost_per_mille,2.45
-mean_click_through_rate,1.23
-mean_conversion_rate,3.67
-cost_per_mille_coefficient_of_variation,0.34
-cost_per_mille_standard_deviation,0.83
-conversion_rate_standard_deviation,1.12

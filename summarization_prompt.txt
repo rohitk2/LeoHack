@@ -1,0 +1,45 @@
+Analyze the data given. We have the metric rate data for each company:
+cpm_mean, cpm_cv, ctr_mean, ctr_std, cvr_mean, cvr_std
+
+We also have the the simulation data for each company:
+{'CPM': {'certainty_pct': 45.5,
+         'p10': 5.664778196438264,
+         'p50': 7.748258114294895,
+         'p90': 10.626222794664285,
+         'stability_pct': 0.0},
+ 'CTR': {'certainty_pct': 24.7,
+         'p10': 0.009844314766653995,
+         'p50': 0.017798830325474795,
+         'p90': 0.032348327546177495,
+         'stability_pct': 0.0},
+ 'CVR': {'certainty_pct': 31.240000000000002,
+         'p10': 0.024587983039335726,
+         'p50': 0.039662794836444526,
+         'p90': 0.06417009887270245,
+         'stability_pct': 0.0}}
+
+Use both the metric rate data and the simulation data as context to justify the budget.
+
+We also have a projected budget that we calculate on our end. It will give the percentages of the 4 companies:
+
+  "Google": ..,
+  "Meta": ..,
+  "Tiktok": ..,
+  "Linkedin": ..
+ 
+Go in order from highest budget to lowest budget and justify the budget for each company given the context.
+Your output should be:
+
+1. "Google": X%
+I gave X% of the budget to Google. Because of ...... <3 sentences to justify>
+
+1. "Meta": X%
+I gave X% of the budget to Meta. Because of ...... <3 sentences to justify>
+...
+...
+...
+
+Also expliity write this before you write anything word-for-word 
+"These are general performances based on average trends. 
+It does not account for specific audience based factors such as age, gender, location, ethnicity, etc. 
+For more specific calculations you can talk to the chatbot."

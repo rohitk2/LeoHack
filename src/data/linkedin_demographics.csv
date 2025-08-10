@@ -1,0 +1,35 @@
+Category,Bucket,% of Audience
+Age,13–17 (Teen),1%
+Age,18–24 (Young Adult / Gen Z),15%
+Age,25–34 (Early Career / Younger Millennial),40%
+Age,35–44 (Mid Career / Older Millennial + Gen X),28%
+Age,45–54 (Experienced Professional / Older Gen X),10%
+Age,55–64 (Late Career / Early Retiree),5%
+Age,65+ (Senior),1%
+Gender,Male,57%
+Gender,Female,43%
+Gender,Non-binary / Other,0.5%
+Gender,Prefer not to say,0.5%
+Location,Urban,65%
+Location,Suburban,25%
+Location,Rural,10%
+Location,Domestic (same country),60%
+Location,International (cross-border audience),40%
+Location,Specific region: North America,30%
+Location,Specific region: Western Europe,25%
+Location,Specific region: APAC,25%
+Location,Specific region: LATAM,10%
+Location,Specific region: Middle East & Africa,10%
+Income,Low income (<$30k),5%
+Income,Lower-middle ($30k–$50k),10%
+Income,Middle ($50k–$75k),20%
+Income,Upper-middle ($75k–$150k),35%
+Income,High income ($150k+),30%
+Profession,Student,8%
+Profession,Entry-level / Early career (0–3 yrs),20%
+Profession,Mid-level professional (4–10 yrs),30%
+Profession,Senior professional / Manager (10+ yrs),25%
+Profession,Executive / C-suite,10%
+Profession,Self-employed / Entrepreneur,5%
+Profession,Skilled trade / Manual labor,1%
+Profession,Unemployed / Career transition,1%
