@@ -1,4 +1,5 @@
 import summarizationAgent from './summarizationAgent.js';
+import platformDemographics from '../data/platformDemographics.json';
 
 class CustomerAgent {
   constructor() {
@@ -81,7 +82,7 @@ class CustomerAgent {
   getWelcomeMessage() {
     return {
       type: 'bot',
-      content: 'Hello! I\'m your budget optimization assistant. To provide you with the most accurate recommendations, I\'d like to learn about your target audience. Would you like to start by telling me about your target demographics? (Type "yes" to begin or ask me anything else about your budget)',
+      content: 'This chatbot will help adapt to your specific targeted audience. Do you want to start? (Type "yes" to begin)',
       timestamp: new Date().toLocaleTimeString()
     };
   }
@@ -96,21 +97,43 @@ class CustomerAgent {
   // Get demographic question for current step
   getDemographicQuestion(step) {
     const options = this.demographicOptions[step];
-    const optionsList = options.map((option, index) => `${index + 1}. ${option}`).join('\n\n'); // Changed from '\n' to '\n\n' for double spacing
     
     const questions = {
-      age: `What's your target audience age range? Please select one of the following options:\n\n${optionsList}\n\nPlease respond with the number (1-${options.length}) of your choice.`,
-      gender: `What's your target audience gender? Please select one of the following options:\n\n${optionsList}\n\nPlease respond with the number (1-${options.length}) of your choice.`,
-      location: `What's your target audience location? Please select one of the following options:\n\n${optionsList}\n\nPlease respond with the number (1-${options.length}) of your choice.`,
-      income: `What's your target audience income level? Please select one of the following options:\n\n${optionsList}\n\nPlease respond with the number (1-${options.length}) of your choice.`,
-      profession: `What's your target audience profession? Please select one of the following options:\n\n${optionsList}\n\nPlease respond with the number (1-${options.length}) of your choice.`
+      age: `What's your target audience age range? Please select one of the following options:`,
+      gender: `What's your target audience gender? Please select one of the following options:`,
+      location: `What's your target audience location? Please select one of the following options:`,
+      income: `What's your target audience income level? Please select one of the following options:`,
+      profession: `What's your target audience profession? Please select one of the following options:`
     };
     
     return {
       type: 'bot',
       content: questions[step],
-      timestamp: new Date().toLocaleTimeString()
+      timestamp: new Date().toLocaleTimeString(),
+      buttons: options, // Add buttons array to the message
+      demographicStep: step // Track which demographic step this is for
     };
+  }
+
+  // Process demographic button response
+  // Process demographic button response
+  processDemographicButtonResponse(selectedOption, step) {
+    // 1. SAVE TO CONTEXT - Store the selected option
+    this.demographicData[step] = selectedOption;
+    
+    // 2. MOVE TO NEXT QUESTION - Progress through steps
+    const steps = ['age', 'gender', 'location', 'income', 'profession'];
+    const currentIndex = steps.indexOf(step);
+    
+    if (currentIndex < steps.length - 1) {
+      // Move to next demographic question
+      this.currentDemographicStep = steps[currentIndex + 1];
+      return this.getDemographicQuestion(this.currentDemographicStep);
+    } else {
+      // 3. ALL COMPLETE - Finished collecting all demographics
+      this.isCollectingDemographics = false;
+      return this.completeDemographicCollection();
+    }
   }
 
   // Process demographic response
@@ -149,11 +172,79 @@ class CustomerAgent {
       .map(([key, value]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`)
       .join('\n');
     
+    // Use the imported demographic data
+    const recommendations = this.generatePlatformRecommendations(platformDemographics);
+    
+    // Set a flag to indicate we should auto-process the summary question
+    this.shouldAutoSummarize = true;
+    
     return {
       type: 'bot',
-      content: `Great! I've collected your target audience information:\n\n${summary}\n\nNow I can provide personalized budget recommendations based on your target demographics. What would you like to know about optimizing your advertising budget?`,
-      timestamp: new Date().toLocaleTimeString()
+      content: `Great! I've collected your target audience information:\n\n${summary}\n\n${recommendations}`,
+      timestamp: new Date().toLocaleTimeString(),
+      autoFollowUp: true // Flag to indicate this message should trigger a follow-up
     };
+  }
+  
+  // Updated generatePlatformRecommendations method
+  generatePlatformRecommendations(platformData) {
+    const userAge = this.demographicData.age;
+    const userGender = this.demographicData.gender;
+    const userLocation = this.demographicData.location;
+    
+    let recommendations = '🎯 **Platform Recommendations Based on Your Target Audience:**\n\n';
+    
+    // Calculate platform scores based on demographic alignment
+    const platformScores = [];
+    
+    Object.entries(platformData).forEach(([platform, data]) => {
+      let score = 0;
+      let details = [];
+      
+      // Age alignment
+      const ageMatch = data.demographics.age[userAge];
+      if (ageMatch) {
+        const percentage = parseInt(ageMatch.replace('%', ''));
+        score += percentage;
+        details.push(`Age match: ${ageMatch} of ${data.name} users`);
+      }
+      
+      // Gender alignment
+      const genderMatch = data.demographics.gender[userGender];
+      if (genderMatch) {
+        const percentage = parseInt(genderMatch.replace('%', ''));
+        score += percentage * 0.5; // Weight gender less than age
+        details.push(`Gender match: ${genderMatch} of ${data.name} users`);
+      }
+      
+      // Location alignment (only Urban/Suburban/Rural)
+      const locationMatch = data.demographics.location[userLocation];
+      if (locationMatch && ['Urban', 'Suburban', 'Rural'].includes(userLocation)) {
+        const percentage = parseInt(locationMatch.replace('%', ''));
+        score += percentage * 0.3; // Weight location less
+        details.push(`Location match: ${locationMatch} of ${data.name} users`);
+      }
+      
+      platformScores.push({ platform, name: data.name, score, details });
+    });
+    
+    // Sort platforms by score (highest first)
+    platformScores.sort((a, b) => b.score - a.score);
+    
+    // Generate recommendations
+    platformScores.forEach((platform, index) => {
+      const priority = index === 0 ? '🥇 **TOP PRIORITY**' : 
+                      index === 1 ? '🥈 **SECONDARY**' : 
+                      index === 2 ? '🥉 **TERTIARY**' : '📊 **CONSIDER**';
+      
+      recommendations += `${priority}: **${platform.name}** (Match Score: ${platform.score.toFixed(1)})\n`;
+      platform.details.forEach(detail => {
+        recommendations += `   • ${detail}\n`;
+      });
+      recommendations += '\n';
+    });
+    
+    return recommendations;
   }
 
   // Load summary from summarizationAgent
@@ -194,7 +285,9 @@ class CustomerAgent {
     }
 
     // Check if user wants to start demographic collection
-    if (!this.isCollectingDemographics && (inputMessage.toLowerCase().includes('yes') || inputMessage.toLowerCase().includes('demographic') || inputMessage.toLowerCase().includes('target audience'))) {
+    // Only trigger if demographics haven't been collected yet
+    const hasCollectedDemographics = Object.values(this.demographicData).some(value => value !== null);
+    if (!this.isCollectingDemographics && !hasCollectedDemographics && (inputMessage.toLowerCase().includes('yes') || inputMessage.toLowerCase().includes('demographic') || inputMessage.toLowerCase().includes('target audience'))) {
       return this.startDemographicCollection();
     }
 

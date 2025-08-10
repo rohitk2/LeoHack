@@ -1,0 +1,122 @@
+{
+  "google": {
+    "name": "Google Ads",
+    "demographics": {
+      "age": {
+        "13–17 (Teen)": "6%",
+        "18–24 (Young Adult / Gen Z)": "18%",
+        "25–34 (Early Career / Younger Millennial)": "24%",
+        "35–44 (Mid Career / Older Millennial + Gen X)": "20%",
+        "45–54 (Experienced Professional / Older Gen X)": "14%",
+        "55–64 (Late Career / Early Retiree)": "10%",
+        "65+ (Senior)": "8%"
+      },
+      "gender": {
+        "Male": "51%",
+        "Female": "48%",
+        "Non-binary / Other": "0.5%",
+        "Prefer not to say": "0.5%"
+      },
+      "location": {
+        "Urban": "50%",
+        "Suburban": "30%",
+        "Rural": "20%",
+        "Domestic (same country)": "72%",
+        "International (cross-border audience)": "28%",
+        "Specific region: North America": "18%",
+        "Specific region: Western Europe": "16%",
+        "Specific region: APAC": "40%"
+      }
+    }
+  },
+  "meta": {
+    "name": "Meta (Facebook/Instagram)",
+    "demographics": {
+      "age": {
+        "13–17 (Teen)": "3%",
+        "18–24 (Young Adult / Gen Z)": "22%",
+        "25–34 (Early Career / Younger Millennial)": "31%",
+        "35–44 (Mid Career / Older Millennial + Gen X)": "20%",
+        "45–54 (Experienced Professional / Older Gen X)": "12%",
+        "55–64 (Late Career / Early Retiree)": "7%",
+        "65+ (Senior)": "5%"
+      },
+      "gender": {
+        "Male": "57%",
+        "Female": "42%",
+        "Non-binary / Other": "0.5%",
+        "Prefer not to say": "0.5%"
+      },
+      "location": {
+        "Urban": "55%",
+        "Suburban": "25%",
+        "Rural": "20%",
+        "Domestic (same country)": "70%",
+        "International (cross-border audience)": "30%",
+        "Specific region: North America": "25%",
+        "Specific region: Western Europe": "20%",
+        "Specific region: APAC": "30%"
+      }
+    }
+  },
+  "linkedin": {
+    "name": "LinkedIn",
+    "demographics": {
+      "age": {
+        "13–17 (Teen)": "1%",
+        "18–24 (Young Adult / Gen Z)": "15%",
+        "25–34 (Early Career / Younger Millennial)": "40%",
+        "35–44 (Mid Career / Older Millennial + Gen X)": "28%",
+        "45–54 (Experienced Professional / Older Gen X)": "10%",
+        "55–64 (Late Career / Early Retiree)": "5%",
+        "65+ (Senior)": "1%"
+      },
+      "gender": {
+        "Male": "57%",
+        "Female": "43%",
+        "Non-binary / Other": "0.5%",
+        "Prefer not to say": "0.5%"
+      },
+      "location": {
+        "Urban": "65%",
+        "Suburban": "25%",
+        "Rural": "10%",
+        "Domestic (same country)": "60%",
+        "International (cross-border audience)": "40%",
+        "Specific region: North America": "30%",
+        "Specific region: Western Europe": "25%",
+        "Specific region: APAC": "25%"
+      }
+    }
+  },
+  "tiktok": {
+    "name": "TikTok",
+    "demographics": {
+      "age": {
+        "13–17 (Teen)": "18%",
+        "18–24 (Young Adult / Gen Z)": "41%",
+        "25–34 (Early Career / Younger Millennial)": "25%",
+        "35–44 (Mid Career / Older Millennial + Gen X)": "10%",
+        "45–54 (Experienced Professional / Older Gen X)": "4%",
+        "55–64 (Late Career / Early Retiree)": "1%",
+        "65+ (Senior)": "1%"
+      },
+      "gender": {
+        "Male": "44%",
+        "Female": "55%",
+        "Non-binary / Other": "0.5%",
+        "Prefer not to say": "0.5%"
+      },
+      "location": {
+        "Urban": "60%",
+        "Suburban": "25%",
+        "Rural": "15%",
+        "Domestic (same country)": "65%",
+        "International (cross-border audience)": "35%",
+        "Specific region: North America": "20%",
+        "Specific region: Western Europe": "15%",
+        "Specific region: APAC": "35%"
+      }
+    }
+  }
+}

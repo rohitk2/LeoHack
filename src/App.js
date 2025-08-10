@@ -53,7 +53,7 @@ function App() {
               className={`nav-button ${activeSection === 'final-breakdown' ? 'active' : ''}`}
               onClick={() => setActiveSection('final-breakdown')}
             >
-              Final Breakdown
+              Simulated Performance
             </button>
             <button 
               className={`nav-button ${activeSection === 'user-modified-budget' ? 'active' : ''}`}

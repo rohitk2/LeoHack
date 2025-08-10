@@ -86,9 +86,12 @@ function UserModifiedBudget() {
   useEffect(() => {
     if (customerAgent.isApiKeyAvailable()) {
       setApiKeyAvailable(true);
-      setMessages([customerAgent.getWelcomeMessage()]);
+      // Only set welcome message if messages array is empty
+      if (messages.length === 0) {
+        setMessages([customerAgent.getWelcomeMessage()]);
+      }
     }
-  }, []);
+  }, []); // Keep empty dependency array
 
   // Enhanced Pie Chart with animations
   const PieChart = ({ data, size = 250 }) => {
@@ -215,6 +218,47 @@ function UserModifiedBudget() {
   const resetChat = () => {
     setMessages([customerAgent.getWelcomeMessage()]);
     setInputMessage('');
+  };
+
+  // Add the handleButtonClick function here
+  const handleButtonClick = async (buttonText, demographicStep) => {
+    // Add user's selection as a message
+    const userMessage = {
+      type: 'user',
+      content: buttonText,
+      timestamp: new Date().toLocaleTimeString()
+    };
+    setMessages(prev => [...prev, userMessage]);
+    
+    setIsLoading(true);
+    
+    try {
+      // Process the button response
+      const botResponse = customerAgent.processDemographicButtonResponse(buttonText, demographicStep);
+      setMessages(prev => [...prev, botResponse]);
+      
+      // Check for auto follow-up inside the try block
+      if (botResponse.autoFollowUp) {
+        // Automatically send the summary question to get AI analysis
+        setTimeout(async () => {
+          try {
+            const summaryResponse = await customerAgent.sendMessage("Now can you give a concise budget change. Given all this context you have in the chat before give me a new budget arrangement of the 4 companies. Give a very minimal answer in this format. Look at the demographic information for each company and current budgget allocation. Then look at the info entered. If what they entered matches the demographic at a company bump the budget up for that company. If it doesn't match bump it down for that company. Here is what it should look like:    Company1: X1% > Y1%, Company2: x2% > Y2%, Company3: x3% > Y3%, Company4: x4% > Y4%....Then 2 or 3 sentences defining why there was any shift? Keep it concise don't have too much. Make sure the 4 total percentages add up to 100%");
+            setMessages(prev => [...prev, summaryResponse]);
+          } catch (error) {
+            console.error('Error getting summary response:', error);
+          }
+        }, 1000); // Small delay for better UX
+      }
+    } catch (error) {
+      const errorResponse = {
+        type: 'bot',
+        content: 'Sorry, I encountered an error. Please try again.',
+        timestamp: new Date().toLocaleTimeString()
+      };
+      setMessages(prev => [...prev, errorResponse]);
+    }
+    
+    setIsLoading(false);
   };
 
   if (!apiKeyAvailable) {
@@ -435,13 +479,17 @@ function UserModifiedBudget() {
           overflowY: 'auto',
           borderBottom: '1px solid #e2e8f0'
         }}>
+          {/* Remove the const handleButtonClick function definition from here */}
+          
+          {/* Keep the message rendering code */}
           {messages.map((message, index) => (
             <div
               key={index}
               style={{
                 marginBottom: '15px',
                 display: 'flex',
-                justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start'
+                flexDirection: 'column',
+                alignItems: message.type === 'user' ? 'flex-end' : 'flex-start'
               }}
             >
               <div
@@ -462,6 +510,42 @@ function UserModifiedBudget() {
                   {message.timestamp}
                 </div>
               </div>
+              
+              {/* Render buttons if they exist */}
+              {message.buttons && message.type === 'bot' && (
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                  marginTop: '10px',
+                  maxWidth: '70%'
+                }}>
+                  {message.buttons.map((buttonText, buttonIndex) => (
+                    <button
+                      key={buttonIndex}
+                      onClick={() => handleButtonClick(buttonText, message.demographicStep)}
+                      style={{
+                        padding: '10px 15px',
+                        backgroundColor: '#4285F4',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        textAlign: 'left',
+                        transition: 'background-color 0.2s',
+                        ':hover': {
+                          backgroundColor: '#3367D6'
+                        }
+                      }}
+                      onMouseEnter={(e) => e.target.style.backgroundColor = '#3367D6'}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = '#4285F4'}
+                    >
+                      {buttonIndex + 1}. {buttonText}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
           {isLoading && (
